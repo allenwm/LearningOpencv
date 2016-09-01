@@ -7,10 +7,34 @@
 using namespace cv;
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Mat srcImage = imread("E:\\openCV document\\picture\\1.jpg");
-	namedWindow("Example", CV_WINDOW_AUTOSIZE);
-	imshow("Example", srcImage);
-	waitKey(0);
+	VideoCapture capture("E:\\Download\\EP17.mp4");
+
+	bool suspend = false;
+	char key;
+	while (1)
+	{
+		Mat frame;
+		capture >> frame;
+		imshow("Load a AVI", frame);
+
+		key = waitKey(30);
+		if (key == 'q')
+		{
+			suspend = true;
+		}
+		while (suspend)
+		{
+			key = waitKey(1);
+			if (key == 'q')
+			{
+				suspend = false;
+			}
+		}
+		if (key == 27)
+		{
+			break;
+		}
+	}
 	return 0;
 }
 
