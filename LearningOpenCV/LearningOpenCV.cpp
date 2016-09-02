@@ -8,6 +8,7 @@
 using namespace cv;
 using namespace std;
 #define WINDOW_NAME "[test_window]"
+#define WINDOW_GAUS "【Gaussblur】"
 
 //set global variable
 const int g_nMaxSchedule = 100;
@@ -23,6 +24,14 @@ void on_Trackbar(int, void*)
 	//求出当前进度
 	g_preFrameNumber = g_totalFrameNumber * (float(g_nScheduleValueSlider / (g_nMaxSchedule * 1.0)));
 	capture.set(CV_CAP_PROP_POS_FRAMES, g_preFrameNumber);
+}
+
+//-----------------------------【Smooth】------------------------
+void Smooth_example(Mat & srcImage)
+{
+	Mat dstImage = srcImage.clone();
+	GaussianBlur(srcImage, dstImage, Size(3, 3), 0, 0);
+	imshow(WINDOW_GAUS, dstImage);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -58,6 +67,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		imshow(WINDOW_NAME, frame);
 
 		g_nScheduleValueSlider = 100 * (double(g_preFrameNumber / (g_nMaxSchedule * 1.0)));
+
+		Smooth_example(frame);
 
 		key = waitKey(30);
 		if (key == 'q')
